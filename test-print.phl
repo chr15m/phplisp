@@ -1,3 +1,4 @@
 (echo (str "Str test: " 1 2 3 "boogie" "\n"))
 (print "Printing: " 1 2 3 "boogie")
 (print (str "Array test: " [1 2 3]))
+(print (str "Array test 2: " [1 2 3 {"what!" 42 "excellent" "trousers"}]))
