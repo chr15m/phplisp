@@ -24,8 +24,19 @@
     (+ "(" (.join (+ " " (get {"=" "==" "!=" "!="} (get form 0)) " ") (map translate (rest form))) ")")
     (raise (Exception "=: wrong number of arguments."))))
 
+(defn force-str [f]
+  (+ "print_r(" (translate f) ", true)"))
+
+(defn builtin-str [form]
+  (+ "(" (.join " . " (map force-str (rest form))) ")"))
+
+(defn builtin-print [form]
+  (+ "echo(" (builtin-str form) " . \"\\n\");"))
+
 (def builtins
   {"if" builtin-if
+   "str" builtin-str
+   "print" builtin-print
    "+" builtin-infix
    "-" builtin-infix
    "*" builtin-infix
