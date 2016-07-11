@@ -46,7 +46,7 @@
   (+ "(" (.join " . " (map force-str (rest form))) ")"))
 
 (defn builtin-print [form]
-  (+ "echo(" (builtin-str form) " . \"\\n\");"))
+  (+ "echo(" (builtin-str form) " . \"\\n\")"))
 
 (def builtins
   {"if" builtin-if
@@ -63,7 +63,7 @@
 (defn translate-expression [form]
   (if (in (first form) builtins)
     ((get builtins (first form)) form)
-    (+ (first form) "(" (.join ", " (map translate (rest form))) ");")))
+    (+ (first form) "(" (.join ", " (map translate (rest form))) ")")))
 
 (defn translate-dict [form]
   (+ "Array(" (.join ", " (map (fn [[k v]] (+ (translate k) " => " (translate v))) (.items form))) ")"))
@@ -82,7 +82,7 @@
     (.append output "<?php")
     (.append output library)
     (for [form forms]
-      (.append output (translate form)))
+      (.append output (+ (translate form) ";")))
     (.append output "?>")
     (.join "\n" output)))
 
