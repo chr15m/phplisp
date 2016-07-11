@@ -16,8 +16,21 @@
     [(= (len form) 4) (+ "if (" (translate (get form 1)) ") {" (translate (get form 2)) "} else {" (translate (get form 3)) "}")]
     [true (raise (Exception "if: wrong number of arguments."))]))
 
+(defn builtin-infix [form]
+  (+ "(" (.join (+ " " (get form 0) " ") (map translate (rest form))) ")"))
+
+(defn builtin-equality [form]
+  (if (= (len form) 3)
+    (+ "(" (.join (+ " " (get {"=" "==" "!=" "!="} (get form 0)) " ") (map translate (rest form))) ")")
+    (raise (Exception "=: wrong number of arguments."))))
+
 (def builtins
-  {"if" builtin-if})
+  {"if" builtin-if
+   "+" builtin-infix
+   "-" builtin-infix
+   "*" builtin-infix
+   "=" builtin-equality
+   "!=" builtin-equality})
 
 ;*** functions to perform translation from tokens to PHP code ***;
 
