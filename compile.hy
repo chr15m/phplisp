@@ -15,10 +15,16 @@
     [(= (type form) HyList) (+ "Array(" (.join ", " (map translate form)) ")")]
     [true (str form)]))
 
-(let [[output []]
-      [forms (hy.lex.tokenize (.read (file (get sys.argv -1))))]]
-  (.append output "<?php")
-  (for [form forms]
-    (.append output (translate form)))
-  (.append output "?>")
-  (print (.join "\n" output)))
+(defn translate-program [raw-code]
+  (let [[output []]
+        [forms (hy.lex.tokenize raw-code)]]
+    (.append output "<?php")
+    (for [form forms]
+      (.append output (translate form)))
+    (.append output "?>")
+    (.join "\n" output)))
+
+;*** invoke main ***;
+(when (= __name__ "__main__")
+  (import sys)
+  (print (translate-program (.read (file (get sys.argv -1))))))
