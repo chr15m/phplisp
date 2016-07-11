@@ -9,9 +9,26 @@
   [hy.models.float [HyFloat]]
   [hy.models.list [HyList]])
 
+;*** list of builtins ***;
+(defn builtin-if [form]
+  (cond
+    [(= (len form) 3) (+ "if (" (translate (get form 1)) ") {" (translate (get form 2)) "}")]
+    [(= (len form) 4) (+ "if (" (translate (get form 1)) ") {" (translate (get form 2)) "} else {" (translate (get form 3)) "}")]
+    [true (raise (Exception "if: wrong number of arguments."))]))
+
+(def builtins
+  {"if" builtin-if})
+
+;*** functions to perform translation from tokens to PHP code ***;
+
+(defn translate-expression [form]
+  (if (in (first form) builtins)
+    ((get builtins (first form)) form)
+    (+ (first form) "(" (.join ", " (map translate (rest form))) ");")))
+
 (defn translate [form]
   (cond
-    [(= (type form) HyExpression) (+ (first form) "(" (.join ", " (map translate (rest form))) ")")]
+    [(= (type form) HyExpression) (translate-expression form)]
     [(= (type form) HyList) (+ "Array(" (.join ", " (map translate form)) ")")]
     [(= (type form) HyString) (+ "\"" form "\"")]
     [true (str form)]))
