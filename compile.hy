@@ -13,6 +13,7 @@
   (cond
     [(= (type form) HyExpression) (+ (first form) "(" (.join ", " (map translate (rest form))) ")")]
     [(= (type form) HyList) (+ "Array(" (.join ", " (map translate form)) ")")]
+    [(= (type form) HyString) (+ "\"" form "\"")]
     [true (str form)]))
 
 (defn translate-program [raw-code]
