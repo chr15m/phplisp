@@ -1,0 +1,1 @@
+(print (json_encode {"fetched" (json_decode (file_get_contents "https://status.github.com/api/status.json"))}))
