@@ -29,18 +29,18 @@
 
 ;*** list of builtins ***;
 (defn builtin-if [form]
-  (cond
-    [(= (len form) 3) (+ "if (" (translate (get form 1)) ") {" (translate (get form 2)) "}")]
-    [(= (len form) 4) (+ "if (" (translate (get form 1)) ") {" (translate (get form 2)) "} else {" (translate (get form 3)) "}")]
-    [true (raise (Exception "if: wrong number of arguments."))]))
+  (assert (or (= (len form) 3) (= (len form) 4)) "if: wrong number of arguments.")
+  (+ (+ "if (" (translate (get form 1)) ") {" (translate (get form 2)) "}")
+    (if (= (len form) 4)
+      (+ " else {" (translate (get form 3)) "}")
+      "")))
 
 (defn builtin-infix [form]
   (+ "(" (.join (+ " " (get form 0) " ") (map translate (rest form))) ")"))
 
 (defn builtin-equality [form]
-  (if (= (len form) 3)
-    (+ "(" (.join (+ " " (get {"=" "==" "!=" "!="} (get form 0)) " ") (map translate (rest form))) ")")
-    (raise (Exception "=: wrong number of arguments."))))
+  (assert (= (len form) 3) "=: wrong number of arguments.")
+  (+ "(" (.join (+ " " (get {"=" "==" "!=" "!="} (get form 0)) " ") (map translate (rest form))) ")"))
 
 (defn builtin-str [form]
   (+ "(" (.join " . " (map force-str (rest form))) ")"))
