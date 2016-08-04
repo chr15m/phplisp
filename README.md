@@ -1,5 +1,3 @@
-## o no ##
-
 Experimental lisp-to-PHP transpiler. Barely functional, **don't use**.
 
 	$ cat test-cases/test-basic.phl
@@ -16,6 +14,8 @@ Experimental lisp-to-PHP transpiler. Barely functional, **don't use**.
 	    [2] => 3
 	    [3] => 4
 	)
+
+![](http://vignette1.wikia.nocookie.net/clubpenguin/images/a/a5/Emoticon_meme_Mother_od_God.png/revision/latest?cb=20140128144512&path-prefix=es)
 
 ### Hacking ###
 
