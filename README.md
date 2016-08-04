@@ -4,11 +4,11 @@ Experimental lisp-to-PHP transpiler. Barely functional, **don't use**.
 
 	$ cat test-basic.phl
 	(print_r [1 2 3 4])
-	$ ./compile.hy test-basic.phl
+	$ ./phplisp test-basic.phl
 	<?php
 	print_r(Array(1, 2, 3, 4))
 	?>
-	$ ./compile.hy test-basic.phl | php
+	$ ./phplisp test-basic.phl | php
 	Array
 	(
 	    [0] => 1
@@ -17,3 +17,10 @@ Experimental lisp-to-PHP transpiler. Barely functional, **don't use**.
 	    [3] => 4
 	)
 
+### Hacking ###
+
+	virtualenv virtualenv
+	. ./virtualenv/bin/activate
+	pip install -r requirements.txt
+
+Patches welcome!
