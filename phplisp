@@ -86,8 +86,13 @@
     (.append output "?>")
     (.join "\n" output)))
 
+(defn usage [argv]
+  (+ "Usage: " (get argv 0) " SOURCE.phl"))
+
 ;*** invoke main ***;
 (when (= __name__ "__main__")
   (import sys)
   (let [[source-file (get sys.argv -1)]]
-    (print (translate-program (.read (file source-file)) phplib))))
+    (if (.endswith source-file ".phl")
+      (print (translate-program (.read (file source-file)) phplib))
+      (print (usage sys.argv)))))
